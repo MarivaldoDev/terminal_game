@@ -20,7 +20,7 @@ class Game():
 
 
     def play_music(self, music: str) -> None:
-        pygame.mixer.music.load(music)
+        pygame.mixer.music.load(f"music/{music}")
         pygame.mixer.music.play()
 
 
@@ -42,7 +42,11 @@ class Game():
         cowsay.ghostbusters("Olá humano, me diga seu nome...")
         self.nome = str(input("Seu nome: "))
 
-        cowsay.ghostbusters(f"{self.nome}, irei pensar em um número entre 0 e 5.\nTente adivinhar...")
+        while self.nome == '':
+            cowsay.ghostbusters("\033[1;31mDigita teu nomeeeeee\033[m")
+            self.nome = str(input("Seu nome: "))
+
+        cowsay.ghostbusters(f"{self.nome.upper()}, irei pensar em um número entre 0 e 5.\nTente adivinhar...\nVocê possui 3 chances para conseguir...")
         escolhido = randint(0, 5)
 
         while True:
@@ -50,8 +54,9 @@ class Game():
                 numero = int(input("Digite o número: "))
 
                 if numero == escolhido:
+                    self.play_music("venceu.mp3")
                     cowsay.ghostbusters("\033[1;32mParabéns! Você acertou.\033[m")
-                    sleep(2)
+                    sleep(4)
                     self.clean_screen()
                     self.second_phase()
                     break
@@ -60,8 +65,10 @@ class Game():
                     cowsay.ghostbusters(f"\033[1;31mErrado! Deixa de ser burro e tenta de novo.\n\nVocê tem {tentativas} tentativas\033[m")
 
                     if tentativas == 0:
+                        self.play_music("game_over.mp3")
                         self.clean_screen()
-                        cowsay.ghostbusters("\033[1;31mFim de jogo\n\nHAHAHAHAHAHAHA\033[m")
+                        cowsay.ghostbusters(f"\033[1;31mFim de jogo\n\nHAHAHAHAHAHAHA\n\nO número era {escolhido}\033[m")
+                        sleep(12)
                         break
             except ValueError:
                 cowsay.ghostbusters("\033[1;31mApenas números são permitidos!\033[m")
@@ -70,8 +77,9 @@ class Game():
     def second_phase(self) -> None:
         self.play_music("second_phase.mp3")
         self.speed_text("Vejo que você conseguiu ser bem sucedido na sua primeira missão.\nVeremos no próximo desafio...")
+        sleep(0.5)
         self.clean_screen()
-        cowsay.meow(f"{self.nome}, você passou de fase. Aguarde as próximas aventuras...")
+        cowsay.meow(f"{self.nome.upper()}, você passou de fase. Aguarde as próximas aventuras...")
 
         while True:
             print("Aguarde as atualizações...")
