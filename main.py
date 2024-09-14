@@ -69,7 +69,15 @@ class Game():
                         self.clean_screen()
                         cowsay.ghostbusters(f"\033[1;31mFim de jogo\n\nHAHAHAHAHAHAHA\n\nO número era {escolhido}\033[m")
                         sleep(12)
-                        break
+                        
+                        try_again = str(input("Tentar novamente [S / N]?: "))
+
+                        if try_again.upper() == 'S':
+                            self.clean_screen()
+                            self.first_phase()
+                        else:
+                            break
+            
             except ValueError:
                 cowsay.ghostbusters("\033[1;31mApenas números são permitidos!\033[m")
 
