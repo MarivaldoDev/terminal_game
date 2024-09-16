@@ -4,6 +4,7 @@ import cowsay
 import sys
 import os
 import pygame
+import sqlite3
 
 
 pygame.mixer.init()
@@ -13,6 +14,16 @@ class Game():
     def __init__(self):
         self.clean_screen()
         self.first_phase()
+
+
+    def create_account(self, nome: str, turma: str) -> None:
+        conection = sqlite3.connect("records.db")
+        cursor = conection.cursor()
+
+        cursor.execute("INSERT INTO users (nome, turma) VALUES (?, ?)", (nome, turma))
+        conection.commit()
+
+        conection.close()
 
 
     def clean_screen(self) -> None:
@@ -41,6 +52,8 @@ class Game():
 
         cowsay.ghostbusters("Olá humano, me diga seu nome...")
         self.nome = str(input("Seu nome: "))
+        self.turma = str(input("Agora fale a sua turma: "))
+        self.create_account(self.nome, self.turma)
 
         while self.nome == '':
             cowsay.ghostbusters("\033[1;31mDigita teu nomeeeeee\033[m")
