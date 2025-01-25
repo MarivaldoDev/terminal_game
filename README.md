@@ -5,7 +5,9 @@ Este projeto consiste em um RPG de fases que pode ser jogado inteiramente pelo t
 
 # Funcionalidades
 Diálogos dinâmicos
+<br>
 Músicas
+<br>
 Dificuldade Melhorada
 
 # Contato
